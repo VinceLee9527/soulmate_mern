@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RegisterModal = ({ setShowModal, isSignedUp }) => {
   const [email, setEmail] = useState(null);
@@ -7,19 +9,29 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(null);
 
+  let navigate = useNavigate();
+
   const handleClick = () => {
     setShowModal(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (!isSignedUp && password !== confirmPassword) {
         setError("Please ensure both passwords are identical");
+        return;
       }
+      const response = await axios.post("http://localhost:8000/signup", {
+        email,
+        password,
+      });
+      const success = response.status === 201;
+
+      if (success) navigate("/profile");
     } catch (error) {
       console.log(error);
-      Swal.fire(error);
+      // Swal.fire(error);
     }
   };
   return (
