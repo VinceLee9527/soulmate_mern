@@ -1,0 +1,73 @@
+@import "./variables";
+
+.profile {
+  border-top: solid 1px $grey;
+  form {
+    display: flex;
+    justify-content: space-around;
+    section {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      width: 35%;
+      text-align: start;
+      .photo-container {
+        display: flex;
+        justify-content: start;
+        img {
+          width: 100%;
+          object-fit: cover;
+          height: 650px;
+        }
+      }
+    }
+    label {
+      margin: 10px 0px;
+    }
+    input {
+      padding: 15px 30px;
+      margin: 10px 0;
+      font-size: 15px;
+      border: solid 2px $grey;
+      border-radius: 10px;
+      ::-webkit-inner-spin-button,
+      ::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      &[type="number"] {
+        width: 10%;
+      }
+      &[type="radio"] {
+        display: none;
+        & + label {
+          cursor: pointer;
+        }
+        &:checked + label {
+          background-color: $light-pink;
+          border: solid 2px $light-pink;
+        }
+      }
+      &[type="submit"] {
+        cursor: pointer;
+        &:hover {
+          background-color: $light-pink;
+        }
+      }
+    }
+    .multiple-input-container {
+      display: flex;
+      input {
+        margin-right: 10px;
+      }
+
+      label {
+        padding: 10px;
+        border: solid 2px $grey;
+        border-radius: 10px;
+        transition: all 0.3s;
+        margin-right: 10px;
+      }
+    }
+  }
+}
