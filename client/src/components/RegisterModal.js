@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const RegisterModal = ({ setShowModal, isSignedUp }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(null);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   let navigate = useNavigate();
 
@@ -26,6 +28,10 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
         email,
         password,
       });
+
+      setCookie("Email", response.data.email);
+      setCookie("UserId", response.data.userId);
+      setCookie("AuthToken", response.data.token);
       const success = response.status === 201;
 
       if (success) navigate("/profile");
