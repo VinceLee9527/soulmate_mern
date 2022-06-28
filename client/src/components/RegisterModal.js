@@ -24,17 +24,22 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
         setError("Please ensure both passwords are identical");
         return;
       }
-      const response = await axios.post("http://localhost:8000/signup", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `http://localhost:8000/${isSignedUp ? "login" : "signup"}`,
+        {
+          email,
+          password,
+        }
+      );
 
-      setCookie("Email", response.data.email);
-      setCookie("UserId", response.data.userId);
+      console.log(response.data);
+
       setCookie("AuthToken", response.data.token);
+      setCookie("UserId", response.data.newUserId);
       const success = response.status === 201;
 
-      if (success) navigate("/profile");
+      if (success && !isSignedUp) navigate("/profile");
+      if (success && isSignedUp) navigate("/dashboard");
     } catch (error) {
       console.log(error);
       // Swal.fire(error);
