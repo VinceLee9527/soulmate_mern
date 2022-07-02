@@ -24,12 +24,14 @@ const Profile = () => {
   let navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    console.log("submitted");
     e.preventDefault();
+    console.log("submitted");
+
     try {
       const response = await axios.put("http://localhost:8000/user", {
         formData,
       });
+      console.log(formData);
       const success = response.status === 200;
       if (success) navigate("/dashboard");
     } catch (error) {
@@ -41,12 +43,46 @@ const Profile = () => {
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
     const name = e.target.name;
-    console.log(value, name);
 
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const handleImgSelect = async (e) => {
+    const img = e.target.files[0];
+
+    if (img.size > 548576) {
+      alert("File is too big!");
+      e.target.value = "";
+      return;
+    }
+    const b64 = await convertB64(img);
+
+    setFormData((prevState) => ({
+      ...prevState,
+      url: b64,
+    }));
+  };
+
+  const convertB64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (err) => {
+        reject(err);
+      };
+    });
+  };
+
+  const handleImgUpload = (e) => {
+    console.log(e.target.files[0]);
   };
 
   console.log(formData);
@@ -249,12 +285,13 @@ const Profile = () => {
           <section>
             <label htmlFor="url">Profile Photo</label>
             <input
-              type="url"
+              type="file"
               name="url"
               id="url"
-              onChange={handleChange}
+              onChange={handleImgSelect}
               required={true}
             />
+            <button onClick={handleImgUpload}>Upload Profile Pic</button>
             <div className="photo-container">
               {formData.url && (
                 <img src={formData.url} alt="profile pic preview" />

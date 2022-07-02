@@ -35,11 +35,13 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
       console.log(response.data);
 
       setCookie("AuthToken", response.data.token);
-      setCookie("UserId", response.data.newUserId);
+      setCookie("UserId", response.data.userId);
       const success = response.status === 201;
 
       if (success && !isSignedUp) navigate("/profile");
       if (success && isSignedUp) navigate("/dashboard");
+
+      window.location.reload();
     } catch (error) {
       console.log(error);
       // Swal.fire(error);

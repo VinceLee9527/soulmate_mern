@@ -22,7 +22,7 @@ app.post("/signup", async (req, res) => {
   const client = new MongoClient(uri);
   const { email, password } = req.body;
 
-  const newUserId = uuidv4();
+  const userId = uuidv4();
   const hidePassword = await bcrypt.hash(password, 10);
 
   try {
@@ -38,7 +38,7 @@ app.post("/signup", async (req, res) => {
     const dbEmail = email.toLowerCase();
 
     const data = {
-      user_id: newUserId,
+      user_id: userId,
       email: dbEmail,
       password: hidePassword,
     };
@@ -49,8 +49,7 @@ app.post("/signup", async (req, res) => {
       expiresIn: 60 * 24,
     });
 
-    res.status(201).json({ token, newUserId });
-    console.log(newUserId);
+    res.status(201).json({ token, userId });
   } catch (error) {
     console.log(error);
   }
@@ -81,6 +80,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
+//profile update
 app.put("/user", async (req, res) => {
   const client = new MongoClient(uri);
   const formData = req.body.formData;
@@ -113,16 +113,19 @@ app.put("/user", async (req, res) => {
   }
 });
 
-app.get("/users", async (req, res) => {
+//get user
+app.get("/user", async (req, res) => {
   const client = new MongoClient(uri);
+  const userId = req.query.userId;
 
   try {
     await client.connect();
     const database = client.db("app-data");
     const users = database.collection("users");
 
-    const returnedUsers = await users.find().toArray();
-    res.send(returnedUsers);
+    const query = { user_id: userId };
+    const returnedUser = await users.findOne(query);
+    res.send(returnedUser);
   } catch (error) {
     console.log(error);
   }
@@ -131,3 +134,21 @@ app.get("/users", async (req, res) => {
 app.listen(Port, () => {
   console.log("server running on " + Port);
 });
+// app.get("/users", async (req, res) => {
+//   const client = new MongoClient(uri);
+
+//   try {
+//     await client.connect();
+//     const database = client.db("app-data");
+//     const users = database.collection("users");
+
+//     const returnedUsers = await users.find().toArray();
+//     res.send(returnedUsers);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
+// app.listen(Port, () => {
+//   console.log("server running on " + Port);
+// });
