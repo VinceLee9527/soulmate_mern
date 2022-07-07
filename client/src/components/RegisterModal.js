@@ -32,8 +32,6 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
         }
       );
 
-      console.log(response.data);
-
       setCookie("AuthToken", response.data.token);
       setCookie("UserId", response.data.userId);
       const success = response.status === 201;
@@ -43,8 +41,12 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
 
       window.location.reload();
     } catch (error) {
-      console.log(error);
-      // Swal.fire(error);
+      console.log(error.message);
+      Swal.fire({
+        title: error.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
   return (

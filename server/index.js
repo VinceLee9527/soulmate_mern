@@ -1,5 +1,10 @@
 const Port = 8000;
 const express = require("express");
+const app = express();
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+
 const { MongoClient } = require("mongodb");
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
@@ -8,14 +13,18 @@ const bcrypt = require("bcrypt");
 const uri =
   "mongodb+srv://vince2004:Password@cluster0.7kf2vuy.mongodb.net/Cluster0?retryWrites=true&w=majority";
 
-const app = express();
-
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.json("Hello");
+//socket io chat
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:8000",
+    methods: ["GET", "POST"],
+  },
 });
+
+io.on("connection", (socket) => {});
 
 //signup
 app.post("/signup", async (req, res) => {
@@ -131,24 +140,47 @@ app.get("/user", async (req, res) => {
   }
 });
 
-app.listen(Port, () => {
+//get swipes
+app.get("/swipes", async (req, res) => {
+  const client = new MongoClient(uri);
+  const interest = req.query.instrumentInterest;
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const users = database.collection("users");
+
+    const query = { instrumentPlayed: interest };
+
+    const returnedUsers = await users.find(query).toArray();
+    res.send(returnedUsers);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//add match
+app.put("/addmatch", async (req, res) => {
+  const client = new MongoClient(uri);
+  const { userId, matchedUserId } = req.body;
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const users = database.collection("users");
+
+    const query = { user_id: userId };
+    const updateDoc = {
+      $push: { matches: { user_id: matchedUserId } },
+    };
+
+    const user = await users.updateOne(query, updateDoc);
+    res.send(user);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+server.listen(Port, () => {
   console.log("server running on " + Port);
 });
-// app.get("/users", async (req, res) => {
-//   const client = new MongoClient(uri);
-
-//   try {
-//     await client.connect();
-//     const database = client.db("app-data");
-//     const users = database.collection("users");
-
-//     const returnedUsers = await users.find().toArray();
-//     res.send(returnedUsers);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-
-// app.listen(Port, () => {
-//   console.log("server running on " + Port);
-// });

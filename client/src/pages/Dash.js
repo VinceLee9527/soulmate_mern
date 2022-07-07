@@ -7,6 +7,8 @@ import axios from "axios";
 const Dash = () => {
   const [user, setUser] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [swipes, setSwipes] = useState(null);
+  const [lastDirection, setLastDirection] = useState();
 
   const userId = cookies.UserId;
   const getUser = async () => {
@@ -15,6 +17,19 @@ const Dash = () => {
         params: { userId },
       });
       setUser(response.data);
+      console.log("usred");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getSwipes = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/swipes", {
+        params: { instrumentInterest: user?.instrumentInterest },
+      });
+      setSwipes(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -24,34 +39,42 @@ const Dash = () => {
     getUser();
   }, []);
 
-  console.log(user);
-  const characters = [
-    {
-      name: "Richard Hendricks",
-      url: "https://imgur.com/Q9WPlWA.jpg",
-    },
-    {
-      name: "Erlich Bachman",
-    },
-    {
-      name: "Monica Hall",
-    },
-    {
-      name: "Jared Dunn",
-    },
-    {
-      name: "Dinesh Chugtai",
-    },
-  ];
-  const [lastDirection, setLastDirection] = useState();
-  const swiped = (direction, nameToDelete) => {
-    console.log("removing: " + nameToDelete);
+  useEffect(() => {
+    if (user) {
+      getSwipes();
+    }
+  }, [user]);
+
+  const updateMatches = async (matchedUserId) => {
+    try {
+      const response = await axios.put("http://localhost:8000/addmatch", {
+        userId,
+        matchedUserId,
+      });
+      getUser();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const swiped = (direction, swipedUserId) => {
+    if (direction === "right") {
+      updateMatches(swipedUserId);
+    }
     setLastDirection(direction);
   };
 
   const outOfFrame = (name) => {
     console.log(name + " left the screen!");
   };
+
+  const matchedUsers = user?.matches
+    .map(({ user_id }) => user_id)
+    .concat(userId);
+
+  const filteredSwipes = swipes?.filter(
+    (swipes) => !matchedUsers.includes(swipes.user_id)
+  );
+
   return (
     <>
       {user && (
@@ -59,18 +82,18 @@ const Dash = () => {
           <ChatContainer user={user} />
           <div className="swipe-container">
             <div className="card-container">
-              {characters.map((character) => (
+              {filteredSwipes?.map((swipe) => (
                 <TinderCard
                   className="swipe"
-                  key={character.name}
-                  onSwipe={(dir) => swiped(dir, character.name)}
-                  onCardLeftScreen={() => outOfFrame(character.name)}
+                  key={swipe.user_id}
+                  onSwipe={(dir) => swiped(dir, swipe.user_id)}
+                  onCardLeftScreen={() => outOfFrame(swipe.user_id)}
                 >
                   <div
-                    style={{ backgroundImage: "url(" + character.url + ")" }}
+                    style={{ backgroundImage: "url(" + swipe.url + ")" }}
                     className="card"
                   >
-                    <h3>{character.name}</h3>
+                    <h3>{swipe.firstName}</h3>
                   </div>
                 </TinderCard>
               ))}

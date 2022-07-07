@@ -234,7 +234,7 @@ const Profile = () => {
                 id="guitarInterest"
                 type="radio"
                 name="instrumentInterest"
-                value="guitar"
+                value="guitarist"
                 onChange={handleChange}
                 checked={formData.instrumentInterest === "guitar"}
               />
@@ -243,7 +243,7 @@ const Profile = () => {
                 id="bassInterest"
                 type="radio"
                 name="instrumentInterest"
-                value="bass"
+                value="bassist"
                 onChange={handleChange}
                 checked={formData.instrumentInterest === "bass"}
               />
@@ -252,7 +252,7 @@ const Profile = () => {
                 id="drummerInterest"
                 type="radio"
                 name="instrumentInterest"
-                value="drums"
+                value="drummer"
                 onChange={handleChange}
                 checked={formData.instrumentInterest === "drums"}
               />
