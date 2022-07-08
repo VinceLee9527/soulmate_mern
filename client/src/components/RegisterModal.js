@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import api from "../api/api";
 
 const RegisterModal = ({ setShowModal, isSignedUp }) => {
   const [email, setEmail] = useState(null);
@@ -24,13 +24,10 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
         setError("Please ensure both passwords are identical");
         return;
       }
-      const response = await axios.post(
-        `http://localhost:8000/${isSignedUp ? "login" : "signup"}`,
-        {
-          email,
-          password,
-        }
-      );
+      const response = await api.post(`/${isSignedUp ? "login" : "signup"}`, {
+        email,
+        password,
+      });
 
       setCookie("AuthToken", response.data.token);
       setCookie("UserId", response.data.userId);

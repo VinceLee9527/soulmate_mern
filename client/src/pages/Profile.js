@@ -2,7 +2,7 @@ import { useState } from "react";
 import Nav from "../components/Nav";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/api";
 
 const Profile = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -28,7 +28,7 @@ const Profile = () => {
     console.log("submitted");
 
     try {
-      const response = await axios.put("http://localhost:8000/user", {
+      const response = await api.put("/user", {
         formData,
       });
       console.log(formData);

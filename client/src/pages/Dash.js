@@ -2,7 +2,7 @@ import TinderCard from "react-tinder-card";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import ChatContainer from "../components/ChatContainer";
-import axios from "axios";
+import api from "../api/api";
 
 const Dash = () => {
   const [user, setUser] = useState(null);
@@ -13,7 +13,7 @@ const Dash = () => {
   const userId = cookies.UserId;
   const getUser = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/user", {
+      const response = await api.get("/user", {
         params: { userId },
       });
       setUser(response.data);
@@ -25,7 +25,7 @@ const Dash = () => {
 
   const getSwipes = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/swipes", {
+      const response = await api.get("/swipes", {
         params: { instrumentInterest: user?.instrumentInterest },
       });
       setSwipes(response.data);
@@ -47,7 +47,7 @@ const Dash = () => {
 
   const updateMatches = async (matchedUserId) => {
     try {
-      const response = await axios.put("http://localhost:8000/addmatch", {
+      const response = await api.put("/addmatch", {
         userId,
         matchedUserId,
       });
