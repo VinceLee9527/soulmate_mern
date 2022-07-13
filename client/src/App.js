@@ -3,9 +3,11 @@ import Profile from "./pages/Profile";
 import Dash from "./pages/Dash";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import io from "socket.io-client";
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const socket = io.connect("http://localhost:8000");
 
   const authToken = cookies.AuthToken;
 

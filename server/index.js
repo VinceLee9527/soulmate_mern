@@ -19,12 +19,17 @@ app.use(express.json());
 //socket io chat
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:8000",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
 
-io.on("connection", (socket) => {});
+// io.on("connection", (socket) => {
+//   console.log(`User connected: ${socket.id}`);
+//   socket.on("disconnect", () => {
+//     console.log("User Disconnected", socket.id);
+//   });
+// });
 
 //signup
 app.post("/signup", async (req, res) => {
@@ -169,13 +174,66 @@ app.put("/addmatch", async (req, res) => {
     const database = client.db("app-data");
     const users = database.collection("users");
 
-    const query = { user_id: userId };
-    const updateDoc = {
+    const query1 = { user_id: userId };
+    const query2 = { user_id: matchedUserId };
+    const updateDoc1 = {
       $push: { matches: { user_id: matchedUserId } },
     };
+    const updateDoc2 = {
+      $push: { matches: { user_id: userId } },
+    };
 
-    const user = await users.updateOne(query, updateDoc);
-    res.send(user);
+    const user = await users.updateOne(query1, updateDoc1);
+    const matchedUser = await users.updateOne(query2, updateDoc2);
+    res.send({ user, matchedUser });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//get matches
+app.get("/matches", async (req, res) => {
+  const client = new MongoClient(uri);
+  const userIds = JSON.parse(req.query.userIds);
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const users = database.collection("users");
+
+    const pipeline = [
+      {
+        $match: {
+          user_id: {
+            $in: userIds,
+          },
+        },
+      },
+    ];
+    const foundUsers = await users.aggregate(pipeline).toArray();
+    res.send(foundUsers);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//get messages
+app.get("/messages", async (req, res) => {
+  const client = new MongoClient(uri);
+  const { userId, otherUserId } = req.query;
+  console.log(userId, otherUserId);
+
+  try {
+    const database = client.db("app-data");
+    const messages = database.collection("messages");
+
+    const query = {
+      from_user_id: userId,
+      to_user_id: otherUserId,
+    };
+
+    const foundMessages = await messages.find(query).toArray();
+    res.send(foundMessages);
   } catch (error) {
     console.log(error);
   }

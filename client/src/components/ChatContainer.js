@@ -5,25 +5,29 @@ import ChatDisplay from "./ChatDisplay";
 
 const ChatContainer = ({ user }) => {
   const [showChat, setShowChat] = useState(false);
+  const [clickedUser, setClickedUser] = useState(null);
+
   return (
     <div className="chat-container">
       <ChatHeader user={user} />
       <div className="chat-option-selector">
         <button
-          className={`option ${showChat ? "notActive" : ""}`}
-          onClick={() => setShowChat(false)}
+          className={`option ${clickedUser ? "notActive" : ""}`}
+          onClick={() => setClickedUser(null)}
         >
           Matches
         </button>
-        <button
-          className={`option ${!showChat ? "notActive" : ""}`}
-          onClick={() => setShowChat(true)}
-        >
+        <button className={`option ${!clickedUser ? "notActive" : ""}`}>
           Chat
         </button>
       </div>
-      {!showChat && <MatchesDisplay matches={user.matches} />}
-      {showChat && <ChatDisplay />}
+      {!clickedUser && (
+        <MatchesDisplay
+          matches={user.matches}
+          setClickedUser={setClickedUser}
+        />
+      )}
+      {clickedUser && <ChatDisplay clickedUser={clickedUser} user={user} />}
     </div>
   );
 };

@@ -27,6 +27,25 @@
     }
   }
 }
+.img-container {
+      height: 50px;
+      width: 50px;
+      border-radius: 25px;
+      overflow: hidden;
+      margin: 5px;
+      img {
+        width: 100%;
+      }
+    }
+
+  .match-profile {
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    .username {
+      padding-left: 15px;
+    }
+  }
 
 .header-container {
   background: linear-gradient(45deg, $light-pink, $light-green);
@@ -34,25 +53,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .match-profile {
-    display: flex;
-    padding: 10px;
-    align-items: center;
-    .img-container {
-      height: 50px;
-      width: 50px;
-      border-radius: 15px;
-      overflow: hidden;
-      margin: 10px;
-      border: 2px solid red;
-      img {
-        width: 100%;
-      }
-    }
-    .username {
-      padding-left: 30px;
-    }
-  }
+
 
   .logout-icon {
     display: flex;
@@ -90,4 +91,22 @@
     height: 35px;
     cursor: pointer;
   }
+}
+
+.matches-container {
+  cursor: pointer;
+}
+
+
+.chat-display-container {
+  padding: 5px; 
+  .chat-profile{
+    display: flex;
+    align-items: center;
+  }
+  .user-message {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+  }
+  
 }
