@@ -221,7 +221,6 @@ app.get("/matches", async (req, res) => {
 app.get("/messages", async (req, res) => {
   const client = new MongoClient(uri);
   const { userId, otherUserId } = req.query;
-  console.log(userId, otherUserId);
 
   try {
     const database = client.db("app-data");
@@ -234,6 +233,21 @@ app.get("/messages", async (req, res) => {
 
     const foundMessages = await messages.find(query).toArray();
     res.send(foundMessages);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//send messages
+app.post("/messages", async (req, res) => {
+  const client = new MongoClient(uri);
+  const message = req.body.message;
+
+  try {
+    const database = client.db("app-data");
+    const messages = database.collection("messages");
+    const insertMessage = await messages.insertOne(message);
+    res.send(insertMessage);
   } catch (error) {
     console.log(error);
   }
