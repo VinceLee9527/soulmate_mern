@@ -38,9 +38,9 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
 
       window.location.reload();
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response.data);
       Swal.fire({
-        title: error.message,
+        title: error.response.data,
         showConfirmButton: false,
         timer: 1500,
       });

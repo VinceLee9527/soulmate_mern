@@ -4,6 +4,7 @@ import api from "../api/api";
 
 const ChatInput = ({ user, clickedUser, getSentMessages, getRecMessages }) => {
   const [textArea, setTextArea] = useState(null);
+
   const userId = user?.user_id;
   const clickedUserId = clickedUser?.user_id;
 

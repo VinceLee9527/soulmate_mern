@@ -24,8 +24,20 @@ const io = new Server(server, {
   },
 });
 
+// let users = [];
+
+// const addUser = (userId, socketId) => {
+//   !users.some((user) => user.userId === userId) &&
+//     users.push({ userId, socketId });
+// };
+
 // io.on("connection", (socket) => {
 //   console.log(`User connected: ${socket.id}`);
+
+//   socket.on("addUser", (userId) => {
+//     addUser(userId, socket.id);
+//     io.emit("getUsers", users);
+//   });
 //   socket.on("disconnect", () => {
 //     console.log("User Disconnected", socket.id);
 //   });
@@ -87,8 +99,9 @@ app.post("/login", async (req, res) => {
       const token = jwt.sign(user, email, { expiresIn: 60 * 24 });
 
       res.status(201).json({ token, userId: user.user_id });
+    } else {
+      res.status(400).send("Incorrect Password! Please try again.");
     }
-    res.status(400).send("Invalid Credentials");
   } catch (error) {
     console.log(error);
   }
@@ -107,6 +120,7 @@ app.put("/user", async (req, res) => {
     const query = { user_id: formData.user_id };
     const updateDoc = {
       $set: {
+        socketId: "",
         firstName: formData.firstName,
         dobDay: formData.dobDay,
         dobMonth: formData.dobMonth,
@@ -158,7 +172,13 @@ app.get("/swipes", async (req, res) => {
     const query = { instrumentPlayed: interest };
 
     const returnedUsers = await users.find(query).toArray();
-    res.send(returnedUsers);
+    const returnedAllUsers = await users.find().toArray();
+
+    if (returnedUsers.length !== 0) {
+      res.send(returnedUsers);
+    } else {
+      res.send(returnedAllUsers);
+    }
   } catch (error) {
     console.log(error);
   }

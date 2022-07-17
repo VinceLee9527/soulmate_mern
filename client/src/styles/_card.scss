@@ -15,20 +15,26 @@
       height: 650px;
       .swipe {
         position: absolute;
+        top: 20px;
+        background-color: #fff;
         .card {
-          background-color: #fff;
           width: 400px;
           height: 650px;
           border-radius: 20px;
           background-size: cover;
           background-position: center;
-          h3 {
-            position: absolute;
-            bottom: 0;
-            margin: 10px;
-            color: #fff;
-          }
+          position: relative;
+          
         }
+        .info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            h3 {
+              font-size: 1.5rem;
+              align-items: center;
+            }
+          }
       }
     }
   }

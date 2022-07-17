@@ -8,6 +8,7 @@ const Profile = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [formData, setFormData] = useState({
     user_id: cookies.UserId,
+    socketId: "",
     firstName: "",
     dobDay: "",
     dobMonth: "",
