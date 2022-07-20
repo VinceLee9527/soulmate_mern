@@ -1,5 +1,6 @@
 import logo from "../images/logo-white.png";
 import colorLogo from "../images/logo.png";
+import loginLogo from "../images/login-icon.svg";
 
 const Nav = ({ minimal, setShowModal, showModal, setIsSignedUp }) => {
   const handleClick = () => {
@@ -12,14 +13,17 @@ const Nav = ({ minimal, setShowModal, showModal, setIsSignedUp }) => {
       <div className="logo-container">
         <img className="logo" src={minimal ? colorLogo : logo} />
       </div>
-      {!authToken && !minimal && (
-        <button
-          className="nav-button"
-          onClick={handleClick}
-          disabled={showModal}
-        >
-          Log In
-        </button>
+      {!authToken && (
+        <div className="login-container">
+          <img className="log-logo" src={loginLogo} />
+          <button
+            className="nav-button"
+            onClick={handleClick}
+            disabled={showModal}
+          >
+            Log In
+          </button>
+        </div>
       )}
     </nav>
   );

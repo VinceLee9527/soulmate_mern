@@ -100,29 +100,31 @@ const Dash = () => {
   return (
     <>
       {user && (
-        <div className="dash">
-          <ChatContainer user={user} />
-          <div className="swipe-container">
-            <div className="card-container">
-              {filteredSwipes?.map((swipe) => (
-                <TinderCard
-                  className="swipe"
-                  key={swipe.user_id}
-                  onSwipe={(dir) => swiped(dir, swipe.user_id)}
-                  onCardLeftScreen={() => outOfFrame(swipe.user_id)}
-                >
-                  <div
-                    style={{ backgroundImage: "url(" + swipe.url + ")" }}
-                    className="card"
-                  ></div>
-                  <div className="info">
-                    <h3>{swipe.firstName}</h3>
-                    <p>I am a {swipe.instrumentPlayed}</p>
-                    <p>I am looking for a {swipe.instrumentInterest}</p>
-                    <p>About me: {swipe.about}</p>
-                  </div>
-                </TinderCard>
-              ))}
+        <div className="dash-container">
+          <div className="dash">
+            <ChatContainer user={user} />
+            <div className="swipe-container">
+              <div className="card-container">
+                {filteredSwipes?.map((swipe) => (
+                  <TinderCard
+                    className="swipe"
+                    key={swipe.user_id}
+                    onSwipe={(dir) => swiped(dir, swipe.user_id)}
+                    onCardLeftScreen={() => outOfFrame(swipe.user_id)}
+                  >
+                    <div
+                      style={{ backgroundImage: "url(" + swipe.url + ")" }}
+                      className="card"
+                    ></div>
+                    <div className="info">
+                      <h3>{swipe.firstName}</h3>
+                      <p>I am a {swipe.instrumentPlayed}</p>
+                      <p>I am looking for a {swipe.instrumentInterest}</p>
+                      <p>About me: {swipe.about}</p>
+                    </div>
+                  </TinderCard>
+                ))}
+              </div>
             </div>
           </div>
         </div>

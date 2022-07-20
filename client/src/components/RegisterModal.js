@@ -22,8 +22,10 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
     try {
       if (!isSignedUp && password !== confirmPassword) {
         setError("Please ensure both passwords are identical");
+
         return;
       }
+
       const response = await api.post(`/${isSignedUp ? "login" : "signup"}`, {
         email,
         password,
@@ -32,6 +34,7 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
       setCookie("AuthToken", response.data.token);
       setCookie("UserId", response.data.userId);
       const success = response.status === 201;
+      console.log(response.data.token);
 
       if (success && !isSignedUp) navigate("/profile");
       if (success && isSignedUp) navigate("/dashboard");

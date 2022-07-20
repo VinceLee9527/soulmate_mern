@@ -71,8 +71,8 @@ app.post("/signup", async (req, res) => {
 
     const newUser = await users.insertOne(data);
 
-    const token = jwt.sign(newUser, dbEmail, {
-      expiresIn: 60 * 24,
+    const token = jwt.sign({ id: userId }, dbEmail, {
+      expiresIn: "7d",
     });
 
     res.status(201).json({ token, userId });
@@ -96,7 +96,9 @@ app.post("/login", async (req, res) => {
     const correctPassword = await bcrypt.compare(password, user.password);
 
     if (user && correctPassword) {
-      const token = jwt.sign(user, email, { expiresIn: 60 * 24 });
+      const token = jwt.sign({ id: user.user_id }, email, {
+        expiresIn: "7d",
+      });
 
       res.status(201).json({ token, userId: user.user_id });
     } else {
