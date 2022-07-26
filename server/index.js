@@ -138,6 +138,7 @@ app.put("/user", async (req, res) => {
     };
     const updatedUser = await users.updateOne(query, updateDoc);
     res.send(updatedUser);
+    console.log(formData.firstName);
   } catch (error) {
     console.log(error);
   }

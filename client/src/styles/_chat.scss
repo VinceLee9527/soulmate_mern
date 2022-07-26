@@ -53,15 +53,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-
-  .logout-icon {
+  .function-container {
     display: flex;
+    .logo-container {
+    display: flex;
+    margin: 15px;
     align-items: center;
-    padding: 20px;
-    color: $dark-grey;
-    font-size: 35px;
+    cursor: pointer;
+    .log-text {
+      font-size: 1rem;
+      font-weight: 900;
+      margin-left: 5px;
+    }
+    .edit-logo {
+      width: 24px;
+      height: 24px;
+    }
   }
+
+  }
+  
 }
 
 .chat-display-container {

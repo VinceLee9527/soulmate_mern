@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Nav from "../components/Nav";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,10 @@ import api from "../api/api";
 
 const Profile = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const userId = cookies.UserId;
+
   const [formData, setFormData] = useState({
     user_id: cookies.UserId,
-    socketId: "",
     firstName: "",
     dobDay: "",
     dobMonth: "",
@@ -24,10 +25,38 @@ const Profile = () => {
 
   let navigate = useNavigate();
 
+  const getUser = async () => {
+    try {
+      const response = await api.get("/user", {
+        params: { userId },
+      });
+      setFormData(() => ({
+        user_id: cookies.UserId,
+        firstName: response.data.firstName ? response.data.firstName : "",
+        dobDay: response.data.dobDay ? response.data.dobDay : "",
+        dobMonth: response.data.dobMonth ? response.data.dobMonth : "",
+        dobYear: response.data.dobYear ? response.data.dobYear : "",
+        gender: response.data.gender ? response.data.gender : "male",
+        showGender: response.data.showGender ? response.data.showGender : false,
+        instrumentPlayed: response.data.instrumentPlayed
+          ? response.data.instrumentPlayed
+          : "singer",
+        instrumentInterest: response.data.instrumentInterest
+          ? response.data.instrumentInterest
+          : "singer",
+        url: response.data.url ? response.data.url : "",
+        about: response.data.about ? response.data.about : "",
+        matches: response.data.matches ? response.data.matches : [],
+      }));
+      console.log("ran");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("submitted");
-
     try {
       const response = await api.put("/user", {
         formData,
@@ -44,11 +73,11 @@ const Profile = () => {
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
     const name = e.target.name;
-
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+    console.log(formData);
   };
 
   const handleImgSelect = async (e) => {
@@ -86,7 +115,9 @@ const Profile = () => {
     console.log(e.target.files[0]);
   };
 
-  console.log(formData);
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <>
@@ -285,13 +316,7 @@ const Profile = () => {
 
           <section>
             <label htmlFor="url">Profile Photo</label>
-            <input
-              type="file"
-              name="url"
-              id="url"
-              onChange={handleImgSelect}
-              required={true}
-            />
+            <input type="file" name="url" id="url" onChange={handleImgSelect} />
             <button onClick={handleImgUpload}>Upload Profile Pic</button>
             <div className="photo-container">
               {formData.url && (
