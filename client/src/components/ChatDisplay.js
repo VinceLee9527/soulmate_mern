@@ -62,8 +62,6 @@ const ChatDisplay = ({ user, clickedUser }) => {
     a.timestamp.localeCompare(b.timestamp)
   );
 
-  console.log(descendingMessages);
-
   return (
     <>
       <Chat descendingMessages={descendingMessages} />

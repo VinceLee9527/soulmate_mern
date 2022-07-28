@@ -93,6 +93,10 @@ app.post("/login", async (req, res) => {
 
     const user = await users.findOne({ email });
 
+    if (!user) {
+      res.status(400).send("This account does not exist! Please try again.");
+    }
+
     const correctPassword = await bcrypt.compare(password, user.password);
 
     if (user && correctPassword) {

@@ -29,7 +29,7 @@ const ChatHeader = ({ user }) => {
       <div className="function-container">
         <div className="logo-container" onClick={handleProfile}>
           <img className="edit-logo" src={editLogo} />
-          <p className="log-text">Edit Profile</p>
+          <p className="log-text">Edit</p>
         </div>
         <div className="logo-container" onClick={handleLogout}>
           <img className="log-logo" src={loginLogo} />

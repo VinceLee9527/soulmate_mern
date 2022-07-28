@@ -17,7 +17,7 @@ const ChatContainer = ({ user }) => {
         >
           Matches
         </button>
-        <button className={`option ${!clickedUser ? "notActive" : ""}`}>
+        <button className={`option-chat ${clickedUser ? "" : "notActive"}`}>
           Chat
         </button>
       </div>

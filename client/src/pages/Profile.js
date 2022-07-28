@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Nav from "../components/Nav";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
@@ -48,7 +47,6 @@ const Profile = () => {
         about: response.data.about ? response.data.about : "",
         matches: response.data.matches ? response.data.matches : [],
       }));
-      console.log("ran");
     } catch (error) {
       console.log(error);
     }
@@ -56,12 +54,10 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submitted");
     try {
       const response = await api.put("/user", {
         formData,
       });
-      console.log(formData);
       const success = response.status === 200;
       if (success) navigate("/dashboard");
     } catch (error) {
@@ -77,13 +73,12 @@ const Profile = () => {
       ...prevState,
       [name]: value,
     }));
-    console.log(formData);
   };
 
   const handleImgSelect = async (e) => {
     const img = e.target.files[0];
 
-    if (img.size > 548576) {
+    if (img.size > 348576) {
       alert("File is too big!");
       e.target.value = "";
       return;
@@ -121,7 +116,6 @@ const Profile = () => {
 
   return (
     <>
-      <Nav showModal={false} setShowModal={() => {}} minimal={true} />
       <div className="profile">
         <h2>Create Account</h2>
         <form onSubmit={handleSubmit}>
@@ -268,7 +262,7 @@ const Profile = () => {
                 name="instrumentInterest"
                 value="guitarist"
                 onChange={handleChange}
-                checked={formData.instrumentInterest === "guitar"}
+                checked={formData.instrumentInterest === "guitarist"}
               />
               <label htmlFor="guitarInterest">Guitarists</label>
               <input
@@ -277,7 +271,7 @@ const Profile = () => {
                 name="instrumentInterest"
                 value="bassist"
                 onChange={handleChange}
-                checked={formData.instrumentInterest === "bass"}
+                checked={formData.instrumentInterest === "bassist"}
               />
               <label htmlFor="bassInterest">Bassists</label>
               <input
@@ -286,7 +280,7 @@ const Profile = () => {
                 name="instrumentInterest"
                 value="drummer"
                 onChange={handleChange}
-                checked={formData.instrumentInterest === "drums"}
+                checked={formData.instrumentInterest === "drummer"}
               />
               <label htmlFor="drummerInterest">Drummers</label>
               <input
@@ -317,7 +311,6 @@ const Profile = () => {
           <section>
             <label htmlFor="url">Profile Photo</label>
             <input type="file" name="url" id="url" onChange={handleImgSelect} />
-            <button onClick={handleImgUpload}>Upload Profile Pic</button>
             <div className="photo-container">
               {formData.url && (
                 <img src={formData.url} alt="profile pic preview" />

@@ -2,12 +2,17 @@ import logo from "../images/logo-white.png";
 import colorLogo from "../images/logo.png";
 import loginLogo from "../images/login-icon.svg";
 
-const Nav = ({ minimal, setShowModal, showModal, setIsSignedUp }) => {
+const Nav = ({
+  authToken,
+  minimal,
+  setShowModal,
+  showModal,
+  setIsSignedUp,
+}) => {
   const handleClick = () => {
     setShowModal(true);
     setIsSignedUp(true);
   };
-  const authToken = false;
   return (
     <nav>
       <div className="logo-container">

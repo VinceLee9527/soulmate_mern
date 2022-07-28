@@ -3,13 +3,13 @@
 .chat-container {
   background-color: $white;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-  width: 30%;
+  width: 30rem;
   text-align: left;
   z-index: 1;
   .chat-option-selector {
     display: flex;
     justify-content: space-around;
-    .option {
+    .option , .option-chat{
       border: none;
       background-color: rgb(255, 255, 255);
       border-bottom: solid 4px $dark-pink;
@@ -17,11 +17,11 @@
       margin: 2px;
       padding: 10px;
       width: 40%;
-      cursor: pointer;
-      &:hover {
+      cursor: pointer;  
+    }
+    .option:hover {
         border-bottom: solid 4px $dark-pink;
       }
-    }
     .notActive {
       border-bottom: solid 4px $grey;
     }
@@ -57,11 +57,11 @@
     display: flex;
     .logo-container {
     display: flex;
-    margin: 15px;
+    margin: 8px;
     align-items: center;
     cursor: pointer;
     .log-text {
-      font-size: 1rem;
+      font-size: 0.8rem;
       font-weight: 900;
       margin-left: 5px;
     }

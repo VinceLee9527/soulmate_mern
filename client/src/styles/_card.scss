@@ -30,6 +30,9 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            .ins-played{
+              text-transform: capitalize;
+            }
             h3 {
               font-size: 1.5rem;
               align-items: center;

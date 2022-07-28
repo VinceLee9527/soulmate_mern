@@ -39,7 +39,6 @@ const Dash = () => {
         params: { userId },
       });
       setUser(response.data);
-      console.log("usred");
     } catch (error) {
       console.log(error);
     }
@@ -51,7 +50,6 @@ const Dash = () => {
         params: { instrumentInterest: user?.instrumentInterest },
       });
       setSwipes(response.data);
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -118,8 +116,15 @@ const Dash = () => {
                     ></div>
                     <div className="info">
                       <h3>{swipe.firstName}</h3>
-                      <p>I am a {swipe.instrumentPlayed}</p>
-                      <p>I am looking for a {swipe.instrumentInterest}</p>
+                      <div>
+                        <span className="ins-played">
+                          {swipe.instrumentPlayed}{" "}
+                        </span>
+                        <span>
+                          looking for {swipe.instrumentInterest}
+                          {swipe.instrumentInterest === "everyone" ? "" : "s"}
+                        </span>
+                      </div>
                       <p>About me: {swipe.about}</p>
                     </div>
                   </TinderCard>

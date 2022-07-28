@@ -3,7 +3,6 @@ import { useCookies } from "react-cookie";
 
 const Chat = ({ descendingMessages }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-  console.log(descendingMessages);
 
   return (
     <>
