@@ -1,5 +1,5 @@
-const Port = 8000;
 const express = require("express");
+const port = process.env.PORT || 8000;
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
@@ -10,8 +10,10 @@ const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
-const uri =
-  "mongodb+srv://vince2004:Password@cluster0.7kf2vuy.mongodb.net/Cluster0?retryWrites=true&w=majority";
+
+require("dotenv").config;
+
+const uri = process.env.URI;
 
 app.use(cors());
 app.use(express.json());
@@ -279,6 +281,6 @@ app.post("/messages", async (req, res) => {
   }
 });
 
-server.listen(Port, () => {
-  console.log("server running on " + Port);
+server.listen(port, () => {
+  console.log("server running on " + port);
 });
