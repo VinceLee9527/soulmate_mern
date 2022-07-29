@@ -14,7 +14,6 @@ const Profile = () => {
     dobMonth: "",
     dobYear: "",
     gender: "male",
-    showGender: false,
     instrumentPlayed: "singer",
     instrumentInterest: "singer",
     url: "",
@@ -36,7 +35,6 @@ const Profile = () => {
         dobMonth: response.data.dobMonth ? response.data.dobMonth : "",
         dobYear: response.data.dobYear ? response.data.dobYear : "",
         gender: response.data.gender ? response.data.gender : "male",
-        showGender: response.data.showGender ? response.data.showGender : false,
         instrumentPlayed: response.data.instrumentPlayed
           ? response.data.instrumentPlayed
           : "singer",
@@ -140,6 +138,8 @@ const Profile = () => {
                 required={true}
                 value={formData.dobDay}
                 onChange={handleChange}
+                min="1"
+                max="31"
               />
 
               <input
@@ -150,6 +150,8 @@ const Profile = () => {
                 required={true}
                 value={formData.dobMonth}
                 onChange={handleChange}
+                min="1"
+                max="12"
               />
 
               <input
@@ -160,6 +162,8 @@ const Profile = () => {
                 required={true}
                 value={formData.dobYear}
                 onChange={handleChange}
+                min="1900"
+                max="2030"
               />
             </div>
 
@@ -193,16 +197,6 @@ const Profile = () => {
               />
               <label htmlFor="genderOther">Other</label>
             </div>
-
-            <label htmlFor="show-gender">Show Gender on my Profile</label>
-
-            <input
-              id="showGender"
-              type="checkbox"
-              name="showGender"
-              onChange={handleChange}
-              checked={formData.showGender}
-            />
 
             <label>I am a</label>
             <div className="multiple-input-container">

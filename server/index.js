@@ -132,7 +132,6 @@ app.put("/user", async (req, res) => {
         dobMonth: formData.dobMonth,
         dobYear: formData.dobYear,
         gender: formData.gender,
-        showGender: formData.showGender,
         instrumentPlayed: formData.instrumentPlayed,
         instrumentInterest: formData.instrumentInterest,
         url: formData.url,
