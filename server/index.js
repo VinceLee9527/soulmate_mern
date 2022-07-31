@@ -3,7 +3,7 @@ const port = process.env.PORT || 8000;
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
-const { Server } = require("socket.io");
+// const { Server } = require("socket.io");
 
 const { MongoClient } = require("mongodb");
 const { v4: uuidv4 } = require("uuid");
@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 
-require("dotenv").config;
+require("dotenv").config({ path: "./.env" });
 
 const uri = process.env.URI;
 
@@ -19,12 +19,12 @@ app.use(cors());
 app.use(express.json());
 
 //socket io chat
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
+// const io = new Server(server, {
+//   cors: {
+//     origin: "http://localhost:3000",
+//     methods: ["GET", "POST"],
+//   },
+// });
 
 // let users = [];
 
@@ -276,6 +276,26 @@ app.post("/messages", async (req, res) => {
     const messages = database.collection("messages");
     const insertMessage = await messages.insertOne(message);
     res.send(insertMessage);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//get user
+app.get("/users", async (req, res) => {
+  console.log(uri);
+  const client = new MongoClient(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const users = database.collection("users");
+
+    const returnedUser = await users.find().toArray();
+    res.send(returnedUser);
   } catch (error) {
     console.log(error);
   }
