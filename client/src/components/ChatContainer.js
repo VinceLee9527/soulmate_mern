@@ -4,7 +4,6 @@ import ChatHeader from "./ChatHeader";
 import ChatDisplay from "./ChatDisplay";
 
 const ChatContainer = ({ user }) => {
-  const [showChat, setShowChat] = useState(false);
   const [clickedUser, setClickedUser] = useState(null);
 
   return (

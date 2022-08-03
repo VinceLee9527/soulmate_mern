@@ -119,19 +119,22 @@ const Profile = () => {
         <form onSubmit={handleSubmit}>
           <section>
             <label htmlFor="firstName">First Name</label>
-            <input
-              id="firstName"
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              required={true}
-              value={formData.firstName}
-              onChange={handleChange}
-            />
+            <div className="input-container">
+              <input
+                id="firstName"
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                required={true}
+                value={formData.firstName}
+                onChange={handleChange}
+              />
+            </div>
             <label>Birthday</label>
-            <div className="multiple-input-container">
+            <div className="dob-input-container">
               <input
                 id="dobDay"
+                className="dobDay"
                 type="number"
                 name="dobDay"
                 placeholder="DD"
@@ -144,6 +147,7 @@ const Profile = () => {
 
               <input
                 id="dobMonth"
+                className="dobMonth"
                 type="number"
                 name="dobMonth"
                 placeholder="MM"
@@ -156,6 +160,7 @@ const Profile = () => {
 
               <input
                 id="dobYear"
+                className="dobYear"
                 type="number"
                 name="dobYear"
                 placeholder="YYYY"
@@ -289,28 +294,38 @@ const Profile = () => {
             </div>
 
             <label htmlFor="about">About me</label>
-            <input
-              id="about"
-              type="text"
-              name="about"
-              required={true}
-              placeholder="I like funk/soul/blues..."
-              value={formData.about}
-              onChange={handleChange}
-            />
-
-            <input type="submit" value="Submit" />
+            <div className="input-container">
+              <input
+                id="about"
+                type="text"
+                name="about"
+                required={true}
+                placeholder="I like funk/soul/blues..."
+                value={formData.about}
+                onChange={handleChange}
+              />
+            </div>
           </section>
 
-          <section>
+          <section className="photo-section">
             <label htmlFor="url">Profile Photo</label>
-            <input type="file" name="url" id="url" onChange={handleImgSelect} />
+            <div className="input-container">
+              <input
+                type="file"
+                name="url"
+                id="url"
+                onChange={handleImgSelect}
+              />
+            </div>
             <div className="photo-container">
               {formData.url && (
                 <img src={formData.url} alt="profile pic preview" />
               )}
             </div>
           </section>
+          <button className="submitButton" type="submit" value="Submit">
+            Submit
+          </button>
         </form>
       </div>
     </>

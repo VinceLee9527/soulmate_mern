@@ -4,19 +4,19 @@
   border-top: solid 1px $grey;
   form {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
     section {
       display: flex;
       flex-direction: column;
       padding: 20px;
-      width: 35%;
-      text-align: start;
+      width: 70%;
       .photo-container {
         display: flex;
         justify-content: start;
         img {
           width: 100%;
-          object-fit: cover;
+          object-fit: contain;
           height: 650px;
         }
       }
@@ -24,19 +24,18 @@
     label {
       margin: 10px 0px;
     }
+    
     input {
-      padding: 15px 30px;
+      padding: 15px 5px;
       margin: 10px 0;
       font-size: 15px;
       border: solid 2px $grey;
       border-radius: 10px;
+      max-width: 400px;
       ::-webkit-inner-spin-button,
       ::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
-      }
-      &[type="number"] {
-        width: 10%;
       }
       &[type="radio"] {
         display: none;
@@ -48,15 +47,33 @@
           border: solid 2px $light-pink;
         }
       }
-      &[type="submit"] {
-        cursor: pointer;
-        &:hover {
-          background-color: $light-pink;
-        }
+    }
+    .input-container {
+      text-align: center;
+      input {
+        width: 90%
       }
     }
+
+    .dob-input-container {
+      display: flex;
+      justify-content: center;
+      input {
+        margin-right: 5px;
+      }
+      .dobMonth, .dobDay {
+      width: 50px
+    }
+    .dobYear {
+      width: 300px
+    }
+    }
+    
     .multiple-input-container {
       display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+
       input {
         margin-right: 10px;
       }
@@ -69,5 +86,50 @@
         margin-right: 10px;
       }
     }
+    .submitButton {
+      width: 60%;
+      border-radius: 20px;
+      cursor: pointer;
+      height: 50px;
+      padding: 10px 5px;
+      margin-bottom: 10px;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: 700;
+      &:hover {
+        background-color: $light-pink;
+      }
+    }
   }
+}
+
+@media (min-width: $breakpoint-desktop) {
+  .profile {
+  form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    position: relative;
+    section {
+      width: 35%;
+      text-align: start;
+    }
+
+    input {
+      padding: 15px 30px;
+    }
+    .input-container {
+      text-align: left;
+    }
+    .dob-input-container, .multiple-input-container {
+      justify-content: left;
+    }
+    .submitButton {
+      position: fixed;
+      bottom: 20px
+    }
+  }
+}
+  
 }
