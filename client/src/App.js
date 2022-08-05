@@ -17,6 +17,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         {authToken && <Route path="/profile" element={<Profile />} />}
         {authToken && <Route path="/dashboard" element={<Dash />} />}
+        {!authToken && <Route path="/profile" element={<Home />} />}
+        {!authToken && <Route path="/dashboard" element={<Home />} />}
       </Routes>
     </BrowserRouter>
   );
