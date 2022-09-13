@@ -114,6 +114,7 @@
     section {
       width: 35%;
       text-align: start;
+      margin-bottom: 100px;
     }
 
     input {
@@ -126,8 +127,8 @@
       justify-content: left;
     }
     .submitButton {
-      position: fixed;
-      bottom: 20px
+     position: absolute;
+     bottom: 20px;
     }
   }
 }

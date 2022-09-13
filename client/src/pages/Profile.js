@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
+import Loader from "../components/Loader";
 
 const Profile = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);

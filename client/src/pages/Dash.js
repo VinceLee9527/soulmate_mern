@@ -4,11 +4,13 @@ import { useCookies } from "react-cookie";
 import ChatContainer from "../components/ChatContainer";
 import api from "../api/api";
 import io from "socket.io-client";
+import Loader from "../components/Loader";
 
 const Dash = () => {
   const [user, setUser] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [swipes, setSwipes] = useState(null);
+  const [emptySwipes, setEmptySwipes] = useState(false);
   const [lastDirection, setLastDirection] = useState();
   // const socket = io("http://localhost:8000");
 
@@ -49,7 +51,16 @@ const Dash = () => {
       const response = await api.get("/swipes", {
         params: { instrumentInterest: user?.instrumentInterest },
       });
-      setSwipes(response.data);
+      console.log(matchedUsers);
+      const filteredSwipes = response.data.filter(
+        (swipes) => !matchedUsers.includes(swipes.user_id)
+      );
+
+      setSwipes(filteredSwipes);
+      console.log(filteredSwipes.length);
+      if (filteredSwipes.length === 0) {
+        setEmptySwipes(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +76,12 @@ const Dash = () => {
     }
   }, [user]);
 
+  // useEffect(() => {
+  //   if (!swipes) {
+  //     setEmpty();
+  //   }
+  // }, [swipes]);
+
   const updateMatches = async (matchedUserId) => {
     try {
       const response = await api.put("/addmatch", {
@@ -79,60 +96,66 @@ const Dash = () => {
   const swiped = (direction, swipedUserId) => {
     if (direction === "right") {
       updateMatches(swipedUserId);
+      if (swipes.length === 0) {
+        setEmptySwipes(true);
+      }
     }
     setLastDirection(direction);
   };
 
-  const outOfFrame = (name) => {
-    console.log(name + " left the screen!");
+  const setEmpty = () => {
+    setEmptySwipes(true);
   };
 
   const matchedUsers = user?.matches
     .map(({ user_id }) => user_id)
     .concat(userId);
 
-  const filteredSwipes = swipes?.filter(
-    (swipes) => !matchedUsers.includes(swipes.user_id)
-  );
+  // console.log(swipes.length);
 
   return (
     <>
-      {user && (
+      {user ? (
         <div className="dash-container">
           <div className="dash">
             <ChatContainer user={user} />
             <div className="swipe-container">
               <div className="card-container">
-                {filteredSwipes?.map((swipe) => (
-                  <TinderCard
-                    className="swipe"
-                    key={swipe.user_id}
-                    onSwipe={(dir) => swiped(dir, swipe.user_id)}
-                    onCardLeftScreen={() => outOfFrame(swipe.user_id)}
-                  >
-                    <div
-                      style={{ backgroundImage: "url(" + swipe.url + ")" }}
-                      className="card"
-                    ></div>
-                    <div className="info">
-                      <h3>{swipe.firstName}</h3>
-                      <div>
-                        <span className="ins-played">
-                          {swipe.instrumentPlayed}{" "}
-                        </span>
-                        <span>
-                          looking for {swipe.instrumentInterest}
-                          {swipe.instrumentInterest === "everyone" ? "" : "s"}
-                        </span>
-                      </div>
-                      <p>About me: {swipe.about}</p>
-                    </div>
-                  </TinderCard>
-                ))}
+                {!emptySwipes
+                  ? swipes?.map((swipe) => (
+                      <TinderCard
+                        className="swipe"
+                        key={swipe.user_id}
+                        onSwipe={(dir) => swiped(dir, swipe.user_id)}
+                      >
+                        <div
+                          style={{ backgroundImage: "url(" + swipe.url + ")" }}
+                          className="card"
+                        ></div>
+                        <div className="info">
+                          <h3>{swipe.firstName}</h3>
+                          <div>
+                            <span className="ins-played">
+                              {swipe.instrumentPlayed}{" "}
+                            </span>
+                            <span>
+                              looking for {swipe.instrumentInterest}
+                              {swipe.instrumentInterest === "everyone"
+                                ? ""
+                                : "s"}
+                            </span>
+                          </div>
+                          <p>About me: {swipe.about}</p>
+                        </div>
+                      </TinderCard>
+                    ))
+                  : "There are no available matches at this time. Please come back later!"}
               </div>
             </div>
           </div>
         </div>
+      ) : (
+        <Loader />
       )}
     </>
   );
