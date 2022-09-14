@@ -12,16 +12,16 @@
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
   padding: 40px;
-  .close-icon{
+  .close-icon {
     float: right;
     font-size: 20px;
     cursor: pointer;
   }
-  .privacy-text{
+  .privacy-text {
     font-size: 14px;
-    margin: 20px auto
+    margin: 20px auto;
   }
- 
+
   .register-form {
     display: flex;
     flex-direction: column;
@@ -31,25 +31,61 @@
       font-size: 18px;
       padding: 5px;
     }
-    
   }
 }
 
-.second-button{
-    color: $grey;
-    background-color: $white;
-    font-weight: 500;
-    font-size: 15px;
-    text-transform: uppercase;
-    padding: 12px 30px;
-    border-radius: 30px;
-    border: solid 2px $grey;
-    margin: 6px;
-    margin-top: 100px;
-    cursor: pointer;
-    &:hover {
-      color: $dark-grey;
-      border: solid 2px $dark-grey;
-      
-    }
+.second-button {
+  color: $grey;
+  background-color: $white;
+  font-weight: 500;
+  font-size: 15px;
+  text-transform: uppercase;
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: solid 2px $grey;
+  margin: 6px;
+  margin-top: 100px;
+  transition: 0.3s;
+  position: relative;
+  cursor: pointer;
+  &::after {
+    content: "";
+    display: block;
+    width: 1.5em;
+    height: 1.5em;
+    position: absolute;
+    left: calc(50% - 0.75em);
+    top: calc(50% - 0.75em);
+    border: 0.15em solid transparent;
+    border-right-color: $brand-pink;
+    border-radius: 50%;
+    animation: button-anim 0.7s linear infinite;
+    opacity: 0;
   }
+  &:hover {
+    color: $dark-grey;
+    border: solid 2px $dark-grey;
+  }
+}
+
+@keyframes button-anim {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.second-button.loading{
+  color: transparent;
+}
+
+.second-button.loading:hover{
+  color: $grey;
+  border: solid 2px $grey;
+}
+
+.second-button.loading::after {
+  opacity: 1;
+}

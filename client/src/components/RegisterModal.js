@@ -8,6 +8,7 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
@@ -19,9 +20,15 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading((current) => !current);
     try {
       if (!isSignedUp && password !== confirmPassword) {
-        setError("Please ensure both passwords are identical");
+        Swal.fire({
+          title: "Please ensure both passwords are identical",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setLoading((current) => !current);
 
         return;
       }
@@ -42,6 +49,7 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
       window.location.reload();
     } catch (error) {
       console.log(error.response.data);
+      setLoading((current) => !current);
       Swal.fire({
         title: error.response.data,
         showConfirmButton: false,
@@ -49,6 +57,10 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
       });
     }
   };
+
+  // const toggleClass = () => {
+  //   setLoading((current) => !current);
+  // };
   return (
     <div className="regis-modal">
       <div className="close-icon" onClick={handleClick}>
@@ -90,7 +102,15 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         )}
-        <input className="second-button" type="submit" placeholder="Submit" />
+        <button
+          className={
+            loading ? "second-button loading disabled" : "second-button"
+          }
+          type="submit"
+          disabled={loading}
+        >
+          Submit
+        </button>
       </form>
     </div>
   );
