@@ -26,7 +26,8 @@
   }
   .chat-container {
     background-color: $white;
-    width: 22rem; //28rem
+    width: 21.2rem; //28rem
+    
     text-align: left;
     transition: transform 0.2s ease;
     transform-origin: top;
@@ -105,7 +106,7 @@
 
 .chat-display-container {
   padding: 20px;
-  height: 69vh;
+  height: 55vh;
   overflow-y: auto;
   z-index: 99;
   background-color: white;
@@ -157,6 +158,10 @@
       width: 28rem;
     }
   }
+  .chat-display-container {
+  height: 65vh;
+ 
+}
 }
 
 @media (min-width: $breakpoint-desktop) {
@@ -170,6 +175,10 @@
       display: block !important;
     }
   }
+  .chat-display-container {
+  height: 69vh;
+ 
+}
 }
 
 // .chat-container {

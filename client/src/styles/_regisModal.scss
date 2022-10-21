@@ -4,11 +4,11 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 100px;
+  top: -100px;
   margin-left: auto;
   margin-right: auto;
   max-width: 360px;
-  height: 550px;
+  height: 450px;
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
   padding: 40px;
@@ -28,7 +28,7 @@
     .form-input {
       margin: 10px;
       height: 25px;
-      font-size: 18px;
+      font-size: 16px;
       padding: 5px;
     }
   }
@@ -44,7 +44,7 @@
   border-radius: 30px;
   border: solid 2px $grey;
   margin: 6px;
-  margin-top: 100px;
+  margin-top: 80px;
   transition: 0.3s;
   position: relative;
   cursor: pointer;
@@ -77,15 +77,45 @@
   }
 }
 
-.second-button.loading{
+.second-button.loading {
   color: transparent;
 }
 
-.second-button.loading:hover{
+.second-button.loading:hover {
   color: $grey;
   border: solid 2px $grey;
 }
 
 .second-button.loading::after {
   opacity: 1;
+}
+
+@media (min-width: $breakpoint-tablet) {
+  .regis-modal {
+    top: -50px;
+    height: 450px;
+    .register-form {
+      .form-input {
+        font-size: 18px;
+      }
+    }
+  }
+  .second-button {
+    margin-top: 100px;
+  }
+}
+
+@media (min-width: $breakpoint-desktop) {
+  .regis-modal {
+    top: -50px;
+    height: 500px;
+    .register-form {
+      .form-input {
+        font-size: 18px;
+      }
+    }
+  }
+  .second-button {
+    margin-top: 150px;
+  }
 }

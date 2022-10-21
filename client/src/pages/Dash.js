@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import ChatContainer from "../components/ChatContainer";
 import api from "../api/api";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 import Loader from "../components/Loader";
 
 const Dash = () => {
