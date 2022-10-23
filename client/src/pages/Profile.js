@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
+import Resizer from "react-image-file-resizer";
+
 import Loader from "../components/Loader";
 
 const Profile = () => {
@@ -77,12 +79,14 @@ const Profile = () => {
   const handleImgSelect = async (e) => {
     const img = e.target.files[0];
 
-    if (img.size > 348576) {
-      alert("File is too big!");
-      e.target.value = "";
-      return;
-    }
+    // if (img.size > 348576) {
+    //   alert("File is too big!");
+    //   e.target.value = "";
+    //   return;
+    // }
     const b64 = await convertB64(img);
+
+    console.log(b64);
 
     setFormData((prevState) => ({
       ...prevState,
@@ -90,20 +94,49 @@ const Profile = () => {
     }));
   };
 
-  const convertB64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
+  const convertB64 = async (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        250,
+        250,
+        "JPEG",
+        100,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        "base64"
+      );
 
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (err) => {
-        reject(err);
-      };
+      // Resizer.imageFileResizer(
+      //   file,
+      //   1500,
+      //   1500,
+      //   "JPEG",
+      //   100,
+      //   0,
+      //   (uri) => {
+      //     return resolve(uri);
+      //   },
+      //   "base64"
+      // );
     });
-  };
+
+  // const convertB64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result);
+  //     };
+
+  //     fileReader.onerror = (err) => {
+  //       reject(err);
+  //     };
+  //   });
+  // };
 
   const handleImgUpload = (e) => {
     console.log(e.target.files[0]);

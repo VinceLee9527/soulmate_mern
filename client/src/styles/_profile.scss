@@ -13,11 +13,12 @@
       width: 70%;
       .photo-container {
         display: flex;
-        justify-content: start;
+        justify-content: center;
         img {
-          width: 100%;
+          margin-top: 10px;
+          width: 60%;
           object-fit: contain;
-          height: 650px;
+          height: 60%;
         }
       }
     }

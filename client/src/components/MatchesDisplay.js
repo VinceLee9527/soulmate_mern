@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import placeholder from "../images/placeholder.webp";
+
 import api from "../api/api";
 
 const MatchesDisplay = ({ matches, setClickedUser }) => {
@@ -29,7 +32,12 @@ const MatchesDisplay = ({ matches, setClickedUser }) => {
           onClick={() => setClickedUser(match)}
         >
           <div className="img-container">
-            <img src={match?.url} alt={match?.firstName + "profile"} />
+            <LazyLoadImage
+              effect="blur"
+              src={match?.url}
+              alt={match?.firstName + "profile"}
+              placeholderSrc={placeholder}
+            />
           </div>
           <h3>{match?.firstName}</h3>
         </div>

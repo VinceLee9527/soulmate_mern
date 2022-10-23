@@ -13,6 +13,8 @@
     "react": "^17.0.0",
     "react-cookie": "^4.1.1",
     "react-dom": "^17.0.0",
+    "react-image-file-resizer": "^0.4.8",
+    "react-lazy-load-image-component": "^1.5.5",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-tinder-card": "^1.4.5",
@@ -27,7 +29,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  
   "eslintConfig": {
     "extends": [
       "react-app",

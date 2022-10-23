@@ -2,6 +2,8 @@ import TinderCard from "react-tinder-card";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import ChatContainer from "../components/ChatContainer";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import placeholder from "../images/placeholder.webp";
 import api from "../api/api";
 // import io from "socket.io-client";
 import Loader from "../components/Loader";
@@ -51,13 +53,11 @@ const Dash = () => {
       const response = await api.get("/swipes", {
         params: { instrumentInterest: user?.instrumentInterest },
       });
-      console.log(matchedUsers);
       const filteredSwipes = response.data.filter(
         (swipes) => !matchedUsers.includes(swipes.user_id)
       );
 
       setSwipes(filteredSwipes);
-      console.log(filteredSwipes.length);
       if (filteredSwipes.length === 0) {
         setEmptySwipes(true);
       }
@@ -111,8 +111,6 @@ const Dash = () => {
     .map(({ user_id }) => user_id)
     .concat(userId);
 
-  // console.log(swipes.length);
-
   return (
     <>
       {user ? (
@@ -128,10 +126,15 @@ const Dash = () => {
                         key={swipe.user_id}
                         onSwipe={(dir) => swiped(dir, swipe.user_id)}
                       >
-                        <div
-                          style={{ backgroundImage: "url(" + swipe.url + ")" }}
-                          className="card"
-                        ></div>
+                        <div className="card">
+                          <LazyLoadImage
+                            className="card-img"
+                            src={swipe.url}
+                            height="400px"
+                            width="100%"
+                            placeholderSrc={placeholder}
+                          />
+                        </div>
                         <div className="info">
                           <h3>{swipe.firstName}</h3>
                           <div>
