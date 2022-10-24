@@ -18,6 +18,19 @@ const uri = process.env.URI;
 app.use(cors());
 app.use(express.json());
 
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const main = async () => {
+  try {
+    await client.connect();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 //socket io chat
 // const io = new Server(server, {
 //   cors: {
@@ -47,14 +60,14 @@ app.use(express.json());
 
 //signup
 app.post("/signup", async (req, res) => {
-  const client = new MongoClient(uri);
+  // const client = new MongoClient(uri);
   const { email, password } = req.body;
 
   const userId = uuidv4();
   const hidePassword = await bcrypt.hash(password, 10);
 
   try {
-    await client.connect();
+    // await client.connect();
     const database = client.db("app-data");
     const users = database.collection("users");
     const existingUser = await users.findOne({ email });
@@ -85,11 +98,11 @@ app.post("/signup", async (req, res) => {
 
 //login
 app.post("/login", async (req, res) => {
-  const client = new MongoClient(uri);
+  // const client = new MongoClient(uri);
   const { email, password } = req.body;
 
   try {
-    await client.connect();
+    // await client.connect();
     const database = client.db("app-data");
     const users = database.collection("users");
 
@@ -117,11 +130,11 @@ app.post("/login", async (req, res) => {
 
 //profile update
 app.put("/user", async (req, res) => {
-  const client = new MongoClient(uri);
+  // const client = new MongoClient(uri);
   const formData = req.body.formData;
 
   try {
-    await client.connect();
+    // await client.connect();
     const database = client.db("app-data");
     const users = database.collection("users");
 
@@ -151,11 +164,11 @@ app.put("/user", async (req, res) => {
 
 //get user
 app.get("/user", async (req, res) => {
-  const client = new MongoClient(uri);
+  // const client = new MongoClient(uri);
   const userId = req.query.userId;
 
   try {
-    await client.connect();
+    // await client.connect();
     const database = client.db("app-data");
     const users = database.collection("users");
 
@@ -169,11 +182,11 @@ app.get("/user", async (req, res) => {
 
 //get swipes
 app.get("/swipes", async (req, res) => {
-  const client = new MongoClient(uri);
+  // const client = new MongoClient(uri);
   const interest = req.query.instrumentInterest;
 
   try {
-    await client.connect();
+    // await client.connect();
     const database = client.db("app-data");
     const users = database.collection("users");
 
@@ -194,11 +207,11 @@ app.get("/swipes", async (req, res) => {
 
 //add match
 app.put("/addmatch", async (req, res) => {
-  const client = new MongoClient(uri);
+  // const client = new MongoClient(uri);
   const { userId, matchedUserId } = req.body;
 
   try {
-    await client.connect();
+    // await client.connect();
     const database = client.db("app-data");
     const users = database.collection("users");
 
@@ -221,11 +234,11 @@ app.put("/addmatch", async (req, res) => {
 
 //get matches
 app.get("/matches", async (req, res) => {
-  const client = new MongoClient(uri);
+  // const client = new MongoClient(uri);
   const userIds = JSON.parse(req.query.userIds);
 
   try {
-    await client.connect();
+    // await client.connect();
     const database = client.db("app-data");
     const users = database.collection("users");
 
@@ -247,7 +260,7 @@ app.get("/matches", async (req, res) => {
 
 //get messages
 app.get("/messages", async (req, res) => {
-  const client = new MongoClient(uri);
+  // const client = new MongoClient(uri);
   const { userId, otherUserId } = req.query;
 
   try {
@@ -268,7 +281,7 @@ app.get("/messages", async (req, res) => {
 
 //send messages
 app.post("/messages", async (req, res) => {
-  const client = new MongoClient(uri);
+  // const client = new MongoClient(uri);
   const message = req.body.message;
 
   try {
@@ -283,14 +296,14 @@ app.post("/messages", async (req, res) => {
 
 //get user
 app.get("/users", async (req, res) => {
-  console.log(uri);
-  const client = new MongoClient(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  // console.log(uri);
+  // const client = new MongoClient(uri, {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true,
+  // });
 
   try {
-    await client.connect();
+    // await client.connect();
     const database = client.db("app-data");
     const users = database.collection("users");
 
