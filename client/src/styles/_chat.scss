@@ -11,23 +11,26 @@
       display: block;
       transform: scale(1, 1);
     }
+    &:checked ~ .chat-toggle-label {
+      display: none;
+    }
   }
   .chat-toggle-label {
     cursor: pointer;
     text-align: left;
     display: flex;
-    img {
+    align-items: center;
+    &:hover .show-chat-logo {
+      filter: invert(50%) sepia(17%) saturate(5534%) hue-rotate(246deg) brightness(96%) contrast(83%);
+    }
+    .show-chat-logo {
       width: 35px;
       text-align: left;
-    }
-    img:hover {
-      filter: invert(50%) sepia(17%) saturate(5534%) hue-rotate(246deg) brightness(96%) contrast(83%);
     }
   }
   .chat-container {
     background-color: $white;
-    width: 21.2rem; //28rem
-    
+    width: 100vw; //28rem
     text-align: left;
     transition: transform 0.2s ease;
     transform-origin: top;
@@ -84,8 +87,42 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  .header-chat-toggle {
+    display: none;
+    &:checked ~ .chat-container {
+      display: block;
+      transform: scale(1, 1);
+    }
+    &:checked ~ .chat-toggle-label {
+      position: absolute;
+      z-index: 100;
+      top: 50px;
+      right: 0;
+    }
+  }
+  .header-chat-toggle-label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 30px;
+    top: 10px;
+    &:hover .show-swipes-logo {
+      filter: invert(50%) sepia(17%) saturate(5534%) hue-rotate(246deg) brightness(96%) contrast(83%);
+    }
+    span {
+      font-size: 0.8rem;
+      font-weight: 900;
+    }
+    .show-swipes-logo {
+      width: 35px;
+      text-align: left;
+    }
+  }
   .function-container {
     display: flex;
+    margin-top: 40px;
     .logo-container {
       display: flex;
       margin: 8px;
@@ -158,10 +195,10 @@
       width: 28rem;
     }
   }
+
   .chat-display-container {
-  height: 65vh;
- 
-}
+    height: 65vh;
+  }
 }
 
 @media (min-width: $breakpoint-desktop) {
@@ -175,10 +212,17 @@
       display: block !important;
     }
   }
+  .header-container {
+    .header-chat-toggle-label {
+      display: none;
+    }
+    .function-container {
+      margin-top: 0px;
+    }
+  }
   .chat-display-container {
-  height: 69vh;
- 
-}
+    height: 69vh;
+  }
 }
 
 // .chat-container {

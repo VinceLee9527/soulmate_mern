@@ -11,7 +11,8 @@ const ChatContainer = ({ user }) => {
     <div className="chat-section">
       <input type="checkbox" class="chat-toggle" id="chat-toggle"></input>
       <label for="chat-toggle" class="chat-toggle-label">
-        <img src={chatExtendLogo} />
+        <img className="show-chat-logo" src={chatExtendLogo} />
+        <span>Show Chat</span>
       </label>
       <div className="chat-container">
         <ChatHeader user={user} />
