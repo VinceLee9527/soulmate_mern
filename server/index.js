@@ -3,7 +3,7 @@ const port = process.env.PORT || 8000;
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
-// const { Server } = require("socket.io");
+const { Server } = require("socket.io");
 
 const { MongoClient } = require("mongodb");
 const { v4: uuidv4 } = require("uuid");
@@ -31,32 +31,32 @@ const main = async () => {
   }
 };
 
-//socket io chat
-// const io = new Server(server, {
-//   cors: {
-//     origin: "http://localhost:3000",
-//     methods: ["GET", "POST"],
-//   },
-// });
+// socket io chat
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
 
-// let users = [];
+let users = [];
 
-// const addUser = (userId, socketId) => {
-//   !users.some((user) => user.userId === userId) &&
-//     users.push({ userId, socketId });
-// };
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
 
-// io.on("connection", (socket) => {
-//   console.log(`User connected: ${socket.id}`);
+io.on("connection", (socket) => {
+  console.log(`User connected: ${socket.id}`);
 
-//   socket.on("addUser", (userId) => {
-//     addUser(userId, socket.id);
-//     io.emit("getUsers", users);
-//   });
-//   socket.on("disconnect", () => {
-//     console.log("User Disconnected", socket.id);
-//   });
-// });
+  socket.on("addUser", (userId) => {
+    addUser(userId, socket.id);
+    io.emit("getUsers", users);
+  });
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+});
 
 //signup
 app.post("/signup", async (req, res) => {

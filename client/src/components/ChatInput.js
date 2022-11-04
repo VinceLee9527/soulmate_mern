@@ -27,6 +27,7 @@ const ChatInput = ({ user, clickedUser, getSentMessages, getRecMessages }) => {
   };
 
   const handleKeypress = (e) => {
+    e.preventDefault();
     if (e.keyCode === 13 && !e.ctrlKey) {
       addMessage();
     }

@@ -25,7 +25,7 @@
     label {
       margin: 10px 0px;
     }
-    
+
     input {
       padding: 15px 5px;
       margin: 10px 0;
@@ -52,7 +52,7 @@
     .input-container {
       text-align: center;
       input {
-        width: 90%
+        width: 90%;
       }
     }
 
@@ -62,14 +62,15 @@
       input {
         margin-right: 5px;
       }
-      .dobMonth, .dobDay {
-      width: 50px
+      .dobMonth,
+      .dobDay {
+        width: 50px;
+      }
+      .dobYear {
+        width: 300px;
+      }
     }
-    .dobYear {
-      width: 300px
-    }
-    }
-    
+
     .multiple-input-container {
       display: flex;
       justify-content: center;
@@ -97,41 +98,74 @@
       border: none;
       font-size: 1.2rem;
       font-weight: 700;
+      &::after {
+        content: "";
+        display: block;
+        width: 1.5em;
+        height: 1.5em;
+        position: absolute;
+        left: calc(50% - 0.75em);
+        top: calc(50% - 0.75em);
+        border: 0.15em solid transparent;
+        border-right-color: $brand-pink;
+        border-radius: 50%;
+        animation: button-anim 0.7s linear infinite;
+        opacity: 0;
+      }
       &:hover {
         background-color: $light-pink;
+      }
+      &.loading {
+        color: transparent;
+      }
+      &.loading:hover {
+        color: $grey;
+        border: solid 2px $grey;
+      }
+      &.loading::after {
+        opacity: 1;
       }
     }
   }
 }
 
-@media (min-width: $breakpoint-desktop) {
-  .profile {
-  form {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: flex-start;
-    position: relative;
-    section {
-      width: 35%;
-      text-align: start;
-      margin-bottom: 100px;
-    }
-
-    input {
-      padding: 15px 30px;
-    }
-    .input-container {
-      text-align: left;
-    }
-    .dob-input-container, .multiple-input-container {
-      justify-content: left;
-    }
-    .submitButton {
-     position: absolute;
-     bottom: 20px;
-    }
+@keyframes button-anim {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
-  
+
+@media (min-width: $breakpoint-desktop) {
+  .profile {
+    form {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: flex-start;
+      position: relative;
+      section {
+        width: 35%;
+        text-align: start;
+        margin-bottom: 100px;
+      }
+
+      input {
+        padding: 15px 30px;
+      }
+      .input-container {
+        text-align: left;
+      }
+      .dob-input-container,
+      .multiple-input-container {
+        justify-content: left;
+      }
+      .submitButton {
+        position: absolute;
+        bottom: 20px;
+      }
+    }
+  }
 }

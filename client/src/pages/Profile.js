@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 
 const Profile = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [profileLoading, setProfileLoading] = useState(false);
   const userId = cookies.UserId;
 
   const [formData, setFormData] = useState({
@@ -54,14 +55,17 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setProfileLoading((current) => !current);
     try {
       const response = await api.put("/user", {
         formData,
       });
       const success = response.status === 200;
+      setProfileLoading((current) => !current);
       if (success) navigate("/dashboard");
     } catch (error) {
       console.log(error);
+      setProfileLoading((current) => !current);
     }
   };
 
@@ -291,6 +295,7 @@ const Profile = () => {
                 type="file"
                 name="url"
                 id="url"
+                accept="image/png, image/jpeg"
                 onChange={handleImgSelect}
               />
             </div>
@@ -300,7 +305,14 @@ const Profile = () => {
               )}
             </div>
           </section>
-          <button className="submitButton" type="submit" value="Submit">
+          <button
+            className={
+              profileLoading ? "submitButton loading disabled" : "submitButton"
+            }
+            type="submit"
+            value="Submit"
+            disabled={profileLoading}
+          >
             Submit
           </button>
         </form>

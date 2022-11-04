@@ -5,7 +5,7 @@ import ChatContainer from "../components/ChatContainer";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import placeholder from "../images/placeholder.webp";
 import api from "../api/api";
-// import io from "socket.io-client";
+import io from "socket.io-client";
 import Loader from "../components/Loader";
 
 const Dash = () => {
@@ -14,28 +14,28 @@ const Dash = () => {
   const [swipes, setSwipes] = useState(null);
   const [emptySwipes, setEmptySwipes] = useState(false);
   const [lastDirection, setLastDirection] = useState();
-  // const socket = io("http://localhost:8000");
+  const socket = io("http://localhost:8000");
 
   const userId = cookies.UserId;
 
-  // socket.on("connect", () => {
-  //   console.log(socket.id);
-  //   socket.emit("addUser", user.user_id);
-  //   socket.on("getUsers", (users) => {
-  //     console.log(users);
-  //     const setSocketId = async () => {
-  //       try {
-  //         const response = await api.put("/socketId", {
-  //           params: { users },
-  //         });
-  //         setUser(response.data);
-  //         console.log("usred");
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     };
-  //   });
-  // });
+  socket.on("connect", () => {
+    console.log(socket.id);
+    socket.emit("addUser", user.user_id);
+    socket.on("getUsers", (users) => {
+      console.log(users);
+      const setSocketId = async () => {
+        try {
+          const response = await api.put("/socketId", {
+            params: { users },
+          });
+          setUser(response.data);
+          console.log("usred");
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    });
+  });
 
   const getUser = async () => {
     try {
