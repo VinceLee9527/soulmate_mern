@@ -25,7 +25,6 @@ const Home = () => {
       <Nav
         showModal={showModal}
         setShowModal={setShowModal}
-        minimal={false}
         isSignedUp={isSignedUp}
         setIsSignedUp={setIsSignedUp}
         authToken={authToken}

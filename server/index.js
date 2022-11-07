@@ -41,20 +41,15 @@ const io = new Server(server, {
 
 let users = [];
 
-const addUser = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
-};
+// const addUser = (userId, socketId) => {
+//   !users.some((user) => user.userId === userId) &&
+//     users.push({ userId, socketId });
+// };
 
 io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
-
-  socket.on("addUser", (userId) => {
-    addUser(userId, socket.id);
-    io.emit("getUsers", users);
-  });
-  socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
+  console.log(`User Connected ${socket.id}`);
+  socket.on("send_message", (data) => {
+    socket.broadcast.emit("receive_message", data);
   });
 });
 

@@ -41,11 +41,11 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
       setCookie("AuthToken", response.data.token);
       setCookie("UserId", response.data.userId);
       const success = response.status === 201;
-      console.log(response.data.token);
 
-      if (success && !isSignedUp) navigate("/profile");
-      if (success && isSignedUp) navigate("/dashboard");
+      if (success && !isSignedUp) navigate("/profile", { replace: true });
+      if (success && isSignedUp) navigate("/dashboard", { replace: true });
 
+      // if (success && !isSignedUp) navigate("/profile");
       window.location.reload();
     } catch (error) {
       console.log(error.response.data);
@@ -58,9 +58,6 @@ const RegisterModal = ({ setShowModal, isSignedUp }) => {
     }
   };
 
-  // const toggleClass = () => {
-  //   setLoading((current) => !current);
-  // };
   return (
     <div className="regis-modal">
       <div className="close-icon" onClick={handleClick}>

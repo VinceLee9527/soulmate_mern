@@ -3,6 +3,7 @@ import MatchesDisplay from "./MatchesDisplay";
 import ChatHeader from "./ChatHeader";
 import ChatDisplay from "./ChatDisplay";
 import chatExtendLogo from "../images/message-circle.svg";
+import api from "../api/api";
 
 const ChatContainer = ({ user }) => {
   const [clickedUser, setClickedUser] = useState(null);
