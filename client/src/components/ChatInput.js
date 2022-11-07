@@ -11,12 +11,14 @@ const ChatInput = ({ user, clickedUser, getSentMessages, getRecMessages }) => {
   //   console.log(socket.id);
   // });
   const sendMessage = () => {
-    socket.emit("send_message", { message: "hello" });
+    console.log(textArea);
+    socket.emit("send_message", { textArea });
+    console.log("set");
   };
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      alert(data.message);
+      alert(data.textArea);
     });
   }, [socket]);
 
